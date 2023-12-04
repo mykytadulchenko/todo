@@ -1,7 +1,11 @@
+//diff classes for diff creatures
+//adding new task with keypress and without form
+
 class Todo {
     constructor(root) {
         this.root = root
         this.tasks = null
+        this.unfinishedCount = 0
     }
 
     init() {
@@ -11,7 +15,7 @@ class Todo {
     }
 
     renderScreen() {
-        this.screen= document.createElement('ul')
+        this.screen = document.createElement('ul')
         this.screen.classList.add('screen') 
         this.renderList()
         this.root.append(this.screen)
@@ -26,23 +30,34 @@ class Todo {
         this.controls.addEventListener('submit', (e) => {
             e.preventDefault()
             if(!input.value) return
-            this.addItem({value: input.value})
+            this.addItem({value: input.value}) //keypress
+            input.value = ''
         })
         this.root.append(this.controls)
     }
 
     renderItem(data) {
         const item = document.createElement('li')
-        const checkbox = document.createElement('input')
+        const checkContainer = document.createElement('div')
+        const checkBody = document.createElement('div')
+        const checked = document.createElement('div')
         const text = document.createElement('p')
-        if(data.isFinished) text.style.textDecoration = 'line-through'
+        if(data.isFinished) {
+            checkContainer.classList.add('active')
+            text.classList.add('finished')
+        }
         const removeBtn = document.createElement('button')
         item.classList.add('list__item')
-        checkbox.type = 'checkbox'
-        checkbox.checked = data.isFinished
+        checkContainer.classList.add('check__container')
+        checkBody.classList.add('check__body')
+        checked.classList.add('check__active')
+        removeBtn.classList.add('remove-btn')
         text.textContent = data.value
-        removeBtn.textContent = 'X'
+        checkBody.innerHTML = '<i class="fa-regular fa-square fa-sm"></i>'
+        checked.innerHTML = '<i class="fa-solid fa-check fa-sm"></i>'
+        removeBtn.innerHTML = '<i class="fa-solid fa-xmark fa-lg" style="color: #ad0000;"></i>'
         const check = () => {
+            checkContainer.classList.toggle('active')
             this.tasks = this.tasks.filter(item => item.id !== data.id)
             this.addItem({...data, isFinished: !data.isFinished})
             releaseEventHandlers()
@@ -59,12 +74,13 @@ class Todo {
         const releaseEventHandlers = () => {
             item.removeEventListener('dblclick', edit)
             removeBtn.removeEventListener('click', remove)
-            checkbox.removeEventListener('change', check)
+           checkContainer.removeEventListener('click', check)
         }
         item.addEventListener('dblclick', edit)
         removeBtn.addEventListener('click', remove)
-        checkbox.addEventListener('change', check)
-        item.append(checkbox, text, removeBtn)
+        checkContainer.addEventListener('click', check)
+        checkContainer.append(checkBody, checked)
+        item.append(checkContainer, text, removeBtn)
         return item
     }
 
