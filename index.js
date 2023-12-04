@@ -53,8 +53,8 @@ class Todo {
         checked.classList.add('check__active')
         removeBtn.classList.add('remove-btn')
         text.textContent = data.value
-        checkBody.innerHTML = '<i class="fa-regular fa-square fa-sm"></i>'
-        checked.innerHTML = '<i class="fa-solid fa-check fa-sm"></i>'
+        checkBody.innerHTML = '<i class="fa-regular fa-square fa-sm" style="color: #6988bf;"></i>'
+        checked.innerHTML = '<i class="fa-solid fa-check fa-sm" style="color: #6988bf;"></i>'
         removeBtn.innerHTML = '<i class="fa-solid fa-xmark fa-lg" style="color: #ad0000;"></i>'
         const check = () => {
             checkContainer.classList.toggle('active')
