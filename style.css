@@ -126,7 +126,7 @@ body {
     padding: 5px 10px;
 }
 
-.list__item.editing form {
+.list__item.editing div {
     width: 100%;
 }
 

@@ -1,5 +1,4 @@
 //diff classes for diff creatures
-//adding new task with keypress and without form
 
 class Todo {
     constructor(root) {
@@ -22,15 +21,14 @@ class Todo {
     }
 
     renderControls() {
-        this.controls = document.createElement('form')
+        this.controls = document.createElement('div')
         this.controls.classList.add('controls')
         const input = document.createElement('input')
         input.placeholder = 'Input task...'
         this.controls.append(input)
-        this.controls.addEventListener('submit', (e) => {
-            e.preventDefault()
-            if(!input.value) return
-            this.addItem({value: input.value}) //keypress
+        this.controls.addEventListener('keypress', (e) => {
+            if(!input.value || e.key != 'Enter') return
+            this.addItem({value: input.value})
             input.value = ''
         })
         this.root.append(this.controls)
@@ -109,12 +107,12 @@ class Todo {
 
     editItem(domElement, data) {
         domElement.classList.add('editing')
-        const editForm = document.createElement('form')
+        const editForm = document.createElement('div')
         const input = document.createElement('input')
         input.value = data.value
         editForm.append(input)
         const edit = (e) => {
-            e.preventDefault()
+            if(e.key !== 'Enter') return
             if(input.value && input.value !== data.value) {
                 this.tasks = this.tasks.filter(item => item.id !== data.id)
                 this.addItem({...data, value: input.value})
@@ -123,7 +121,7 @@ class Todo {
             }
             editForm.removeEventListener('submit', edit)
         }
-        editForm.addEventListener('submit', edit)
+        editForm.addEventListener('keypress', edit)
         domElement.append(editForm) 
         input.focus()
     }
