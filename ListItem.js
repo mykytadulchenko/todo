@@ -58,6 +58,9 @@ export default class ListItem {
         const editForm = document.createElement('div')
         const input = document.createElement('input')
         input.value = this.data.value
+        input.onblur = () => {
+            this.list.renderList()
+        }
         editForm.append(input)
         const edit = (e) => {
             if(e.key !== 'Enter') return

@@ -98,6 +98,7 @@ body {
 .list__item p {
     flex-grow: 1;
     color: #fafafa;
+    user-select: none;
 }
 
 .controls {
