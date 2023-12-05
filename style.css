@@ -49,6 +49,7 @@ body {
     align-items: center;
     gap: 5px;
     padding: 10px 15px 10px 10px;
+    min-height: 40px;
     border-radius: 8px;
     box-shadow: 0 2px 5px 2px rgba(91, 91, 91, 0.1)
 }
@@ -119,4 +120,22 @@ body {
 
 .finished {
     text-decoration: line-through;
+}
+
+.list__item.editing {
+    padding: 5px 10px;
+}
+
+.list__item.editing form {
+    width: 100%;
+}
+
+.list__item.editing input {
+    padding: 5px;
+    height: 100%;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
 }

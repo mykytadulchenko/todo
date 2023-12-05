@@ -108,6 +108,7 @@ class Todo {
     }
 
     editItem(domElement, data) {
+        domElement.classList.add('editing')
         const editForm = document.createElement('form')
         const input = document.createElement('input')
         input.value = data.value
