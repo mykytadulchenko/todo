@@ -22,9 +22,9 @@ export default class ListItem {
         checked.classList.add('check__active')
         removeBtn.classList.add('remove-btn')
         text.textContent = this.data.value
-        checkBody.innerHTML = '<i class="fa-regular fa-square fa-sm" style="color: #6988bf;"></i>'
-        checked.innerHTML = '<i class="fa-solid fa-check fa-sm" style="color: #6988bf;"></i>'
-        removeBtn.innerHTML = '<i class="fa-solid fa-xmark fa-lg" style="color: #ad0000;"></i>'
+        checkBody.innerHTML = '<i class="fa-regular fa-square fa-sm"></i>'
+        checked.innerHTML = '<i class="fa-solid fa-check fa-sm"></i>'
+        removeBtn.innerHTML = '<i class="fa-solid fa-xmark fa-lg"></i>'
         const check = () => {
             checkContainer.classList.toggle('active')
             this.list.tasks = this.list.tasks.filter(item => item.id !== this.data.id)
