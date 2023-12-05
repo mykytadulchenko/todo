@@ -80,13 +80,13 @@ export default class Todo {
         }
         let taskCounter = 0
         let filterData = this.store.data
+        filterData.forEach(el => {
+            if(!el.isFinished) taskCounter++
+        })
         if(this.filter !== null) {
             filterData = filterData.filter(el => el.isFinished === this.filter)
         }
         const taskElements = filterData.map(data => {
-            if(!data.isFinished) {
-                taskCounter++
-            }
             return new ListItem(this, data).renderItem()
         })
         this.screen.append(...taskElements)
