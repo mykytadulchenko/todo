@@ -27,7 +27,7 @@ export default class ListItem {
         removeBtn.innerHTML = '<i class="fa-solid fa-xmark fa-lg" style="color: #ad0000;"></i>'
         const check = () => {
             checkContainer.classList.toggle('active')
-            this.list.tasks = this.list.tasks.filter(item => item.id !== this.data.id)
+            this.list.store.data = this.list.store.data.filter(item => item.id !== this.data.id)
             this.list.addItem({...this.data, isFinished: !this.data.isFinished})
             releaseEventHandlers()
         }
@@ -62,7 +62,7 @@ export default class ListItem {
         const edit = (e) => {
             if(e.key !== 'Enter') return
             if(input.value && input.value !== this.data.value) {
-                this.list.tasks = this.list.tasks.filter(item => item.id !== this.data.id)
+                this.list.store.data = this.list.store.data.filter(item => item.id !== this.data.id)
                 this.list.addItem({...this.data, value: input.value})
             } else {
                 this.list.renderList()
@@ -75,8 +75,8 @@ export default class ListItem {
     }
 
     removeItem() {
-        this.list.tasks = this.list.tasks.filter(item => item.id !== this.data.id)
-        this.list.setTasks(this.list.tasks)
+        this.list.store.data = this.list.store.data.filter(item => item.id !== this.data.id)
+        this.list.store.setTasks(this.list.store.data)
         this.list.renderList()
     }
 }

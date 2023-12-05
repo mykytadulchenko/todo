@@ -1,9 +1,10 @@
+import Store from "./Store.js"
 import ListItem from "./ListItem.js"
 
 export default class Todo {
     constructor(root) {
         this.root = root
-        this.tasks = null
+        this.store = new Store()
         this.unfinishedCount = 0
     }
 
@@ -36,24 +37,14 @@ export default class Todo {
 
     renderList() {
         this.screen.innerHTML = ''
-        const taskElements = (this.tasks ? this.tasks : this.getTasks()).map(data => new ListItem(this, data).renderItem())
+        const taskElements = this.store.data.map(data => new ListItem(this, data).renderItem())
         this.screen.append(...taskElements)
     }
 
-    getTasks() {
-        this.tasks = JSON.parse(localStorage.getItem('todos')) || []
-        return this.tasks
-    }
-
-    setTasks(data) {
-        const sortedData = data.sort((a, b) => a.id - b.id)
-        localStorage.setItem('todos', JSON.stringify(sortedData))
-    }
-
     addItem(options) {
-        const {id = this.tasks.at(-1)?.id + 1 || 0, value, isFinished = false} = options
-        this.tasks.push({id, value, isFinished})
-        this.setTasks(this.tasks)
+        const {id = this.store.data.at(-1)?.id + 1 || 0, value, isFinished = false} = options
+        this.store.data.push({id, value, isFinished})
+        this.store.setTasks(this.store.data)
         this.renderList()
     }
 }
