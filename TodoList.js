@@ -6,6 +6,7 @@ export default class Todo {
         this.root = root
         this.store = new Store()
         this.filter = null
+        this.selectedAll = false
     }
 
     init() {
@@ -28,9 +29,17 @@ export default class Todo {
     renderControls() {
         this.controls = document.createElement('div')
         this.controls.classList.add('controls')
+        const selectAllBtn = document.createElement('button')
+        selectAllBtn.innerHTML = '<i class="fa-solid fa-check-double"></i>'
+        selectAllBtn.addEventListener('click', () => {
+            this.selectedAll = !this.selectedAll
+            this.store.data = this.store.data.map(el => ({...el, isFinished: this.selectedAll}))
+            this.store.setTasks(this.store.data)
+            this.renderList()
+        })
         const input = document.createElement('input')
         input.placeholder = 'Input task...'
-        this.controls.append(input)
+        this.controls.append(selectAllBtn, input)
         this.controls.addEventListener('keypress', (e) => {
             if(!input.value || e.key != 'Enter') return
             this.addItem({value: input.value})
