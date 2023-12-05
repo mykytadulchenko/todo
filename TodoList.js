@@ -10,7 +10,6 @@ export default class Todo {
 
     init() {
         this.root.innerHTML = ''
-        
         this.renderControls()
         this.renderScreen()
     }
