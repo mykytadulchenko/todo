@@ -60,8 +60,12 @@ export default class Todo {
         const filterFinishedBtn = Utils.createElement('button', null, 'Finished')
         const filterActiveBtn = Utils.createElement('button', null, 'Active')
         const filterAllBtn = Utils.createElement('button', null, 'All')
+        const clearCompleted = Utils.createElement('button', null, 'Clear completed')
         filterFinishedBtn.dataset.status = 'finished'
         filterActiveBtn.dataset.status = 'active'
+        if(this.activeTasksCounter == this.store.data.length) {
+            clearCompleted.classList.add('hidden')
+        }
         filterContainer.addEventListener('click', (e) => {
             if(e.target.tagName !== "BUTTON") return
             switch(e.target.dataset.status) {
@@ -73,17 +77,18 @@ export default class Todo {
             }
             this.renderList()
         })
+        clearCompleted.addEventListener('click', () => this.removeSelected())
         filterContainer.append(filterAllBtn, filterActiveBtn, filterFinishedBtn)
-        this.filters.append(activeTasksCounter, filterContainer)
+        this.filters.append(activeTasksCounter, filterContainer, clearCompleted)
         this.root.append(this.filters)
     }
 
     renderList() {
         this.screen.innerHTML = ''
-        if(!this.store.data.length) {
-            this.filters?.classList.add('hidden')
-        } else {
+        if(this.store.data.length > 0) {
             this.filters?.classList.remove('hidden')
+        } else {
+            this.filters?.classList.add('hidden')
         }
         let taskCounter = 0
         let filterData = this.store.data
@@ -100,6 +105,11 @@ export default class Todo {
         if(this.activeTaskCounter !== taskCounter) {
             this.changeCounter(taskCounter)
         } 
+        if(this.activeTasksCounter !== this.store.data.length) {
+            this.filters?.children[2].classList.remove('hidden')
+        } else {
+            this.filters?.children[2].classList.add('hidden')
+        }
     }
 
     changeCounter(value) {
@@ -111,6 +121,12 @@ export default class Todo {
     addItem(options) {
         const {id = this.store.data.at(-1)?.id + 1 || 0, value, isFinished = false} = options
         this.store.data.push({id, value, isFinished})
+        this.store.setTasks(this.store.data)
+        this.renderList()
+    }
+
+    removeSelected() {
+        this.store.data = this.store.data.filter(el => !el.isFinished)
         this.store.setTasks(this.store.data)
         this.renderList()
     }

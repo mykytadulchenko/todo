@@ -176,20 +176,15 @@ body {
 .footer {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
     padding: 0 5px;
     font-size: 0.8em;
     color: #fafafa;
 }
 
-.filters {
-    align-self: center;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 30%;
-}
-
-.filters button {
+.footer button {
+    display: block;
     border: none;
     background: none;
     font-family: inherit;
@@ -198,6 +193,13 @@ body {
     cursor: pointer;
 }
 
+.filters {
+    align-self: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
 .hidden {
-    opacity: 0;
+    transform: translateY(200%);
 }
