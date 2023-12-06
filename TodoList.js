@@ -1,6 +1,7 @@
 import Utils from "./Utils.js"
 import Store from "./Store.js"
 import ListItem from "./ListItem.js"
+import EventEmitter from "./EventEmitter.js"
 
 export default class Todo {
     constructor(root) {
@@ -8,6 +9,7 @@ export default class Todo {
         this.store = new Store()
         this.filter = null
         this.selectedAll = false
+        this.ee = new EventEmitter()
     }
 
     init() {
@@ -30,11 +32,15 @@ export default class Todo {
         this.controls = Utils.createElement('div', 'controls')
         const selectAllBtn = Utils.createElement('button')
         selectAllBtn.innerHTML = '<i class="fa-solid fa-check-double"></i>'
-        selectAllBtn.addEventListener('click', () => {
+        const selectAllClick = () => {
             this.selectedAll = !this.selectedAll
             this.store.data = this.store.data.map(el => ({...el, isFinished: this.selectedAll}))
             this.store.setTasks(this.store.data)
             this.renderList()
+        }
+        this.ee.subscribe('selectAll', selectAllClick)
+        selectAllBtn.addEventListener('click', () => {
+            this.ee.emit('selectAll')
         })
         const input = Utils.createElement('input')
         input.placeholder = 'Input task...'
