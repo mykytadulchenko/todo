@@ -1,3 +1,4 @@
+import Utils from "./Utils.js"
 import Store from "./Store.js"
 import ListItem from "./ListItem.js"
 
@@ -20,16 +21,14 @@ export default class Todo {
     }
 
     renderScreen() {
-        this.screen = document.createElement('ul')
-        this.screen.classList.add('screen') 
+        this.screen = Utils.createElement('ul', 'screen')
         this.renderList()
         this.root.append(this.screen)
     }
 
     renderControls() {
-        this.controls = document.createElement('div')
-        this.controls.classList.add('controls')
-        const selectAllBtn = document.createElement('button')
+        this.controls = Utils.createElement('div', 'controls')
+        const selectAllBtn = Utils.createElement('button')
         selectAllBtn.innerHTML = '<i class="fa-solid fa-check-double"></i>'
         selectAllBtn.addEventListener('click', () => {
             this.selectedAll = !this.selectedAll
@@ -37,7 +36,7 @@ export default class Todo {
             this.store.setTasks(this.store.data)
             this.renderList()
         })
-        const input = document.createElement('input')
+        const input = Utils.createElement('input')
         input.placeholder = 'Input task...'
         this.controls.append(selectAllBtn, input)
         this.controls.addEventListener('keypress', (e) => {
@@ -49,19 +48,12 @@ export default class Todo {
     }
 
     renderFilters() {
-        this.filters = document.createElement('div')
-        this.filters.classList.add('footer')
-        const activeTasksCounter = document.createElement('div')
-        activeTasksCounter.classList.add('task-counter')
-        activeTasksCounter.textContent = `${this.activeTasksCounter} tasks left`
-        const filterContainer = document.createElement('div')
-        filterContainer.classList.add('filters')
-        const filterFinishedBtn = document.createElement('button')
-        const filterActiveBtn = document.createElement('button')
-        const filterAllBtn = document.createElement('button')
-        filterFinishedBtn.textContent = 'Finished'
-        filterActiveBtn.textContent = 'Active'
-        filterAllBtn.textContent = 'All'
+        this.filters = Utils.createElement('div', 'footer')
+        const activeTasksCounter = Utils.createElement('div', 'task-counter', `${this.activeTasksCounter} tasks left`)
+        const filterContainer = Utils.createElement('div', 'filters')
+        const filterFinishedBtn = Utils.createElement('button', null, 'Finished')
+        const filterActiveBtn = Utils.createElement('button', null, 'Active')
+        const filterAllBtn = Utils.createElement('button', null, 'All')
         filterFinishedBtn.dataset.status = 'finished'
         filterActiveBtn.dataset.status = 'active'
         filterContainer.addEventListener('click', (e) => {

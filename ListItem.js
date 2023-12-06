@@ -1,3 +1,5 @@
+import Utils from "./Utils.js"
+
 export default class ListItem {
     constructor(list, data) {
         this.list = list
@@ -6,22 +8,16 @@ export default class ListItem {
     }
 
     renderItem() {
-        this.elem = document.createElement('li')
-        const checkContainer = document.createElement('div')
-        const checkBody = document.createElement('div')
-        const checked = document.createElement('div')
-        const text = document.createElement('p')
+        this.elem = Utils.createElement('li', 'list__item')
+        const checkContainer = Utils.createElement('div', 'check__container')
+        const checkBody = Utils.createElement('div', 'check__body')
+        const checked = Utils.createElement('div', 'check__active')
+        const text = Utils.createElement('p', null, this.data.value)
+        const removeBtn = Utils.createElement('button', 'remove-btn')
         if(this.data.isFinished) {
             checkContainer.classList.add('active')
             text.classList.add('finished')
         }
-        const removeBtn = document.createElement('button')
-        this.elem.classList.add('list__item')
-        checkContainer.classList.add('check__container')
-        checkBody.classList.add('check__body')
-        checked.classList.add('check__active')
-        removeBtn.classList.add('remove-btn')
-        text.textContent = this.data.value
         checkBody.innerHTML = '<i class="fa-regular fa-square fa-sm"></i>'
         checked.innerHTML = '<i class="fa-solid fa-check fa-sm"></i>'
         removeBtn.innerHTML = '<i class="fa-solid fa-xmark fa-lg"></i>'
@@ -55,13 +51,10 @@ export default class ListItem {
 
     editItem() {
         this.elem.classList.add('editing')
-        const editForm = document.createElement('div')
-        const input = document.createElement('input')
+        const editForm = Utils.createElement('div')
+        const input = Utils.createElement('input')
         input.value = this.data.value
-        input.onblur = () => {
-            this.list.renderList()
-        }
-        editForm.append(input)
+        input.onblur = () => this.list.renderList()
         const edit = (e) => {
             if(e.key !== 'Enter') return
             if(input.value && input.value !== this.data.value) {
@@ -73,6 +66,7 @@ export default class ListItem {
             editForm.removeEventListener('submit', edit)
         }
         editForm.addEventListener('keypress', edit)
+        editForm.append(input)
         this.elem.append(editForm) 
         input.focus()
     }
